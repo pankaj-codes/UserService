@@ -2,6 +2,7 @@ package com.ecom.userservice.security.services;
 
 import com.ecom.userservice.models.User;
 import com.ecom.userservice.repositories.UserRepository;
+import com.ecom.userservice.security.models.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByEmail(username);
-        return null;
+
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        User user = optionalUser.get();
+        return new CustomUserDetails(user);
     }
 }
