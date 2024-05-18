@@ -9,6 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
+/**
+ * https://docs.spring.io/spring-authorization-server/reference/guides/how-to-jpa.html - models taken from here
+ */
 @Entity
 @Table(name = "`authorizationConsent`")
 @IdClass(AuthorizationConsent.AuthorizationConsentId.class)

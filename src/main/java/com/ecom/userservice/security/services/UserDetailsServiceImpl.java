@@ -6,9 +6,11 @@ import com.ecom.userservice.security.models.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;

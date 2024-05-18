@@ -81,7 +81,7 @@ public class UserController {
         }
         User userDb = dbUserOptional.get();
         if (!bCryptPasswordEncoder.matches(userDb.getPassword(), loginRequestDto.password())) {
-            Token token = generateToken(userDb);
+            Token token = generateTokenSelf(userDb);
             UserDto userDto = new UserDto();
             userDto.setEmail(userDb.getEmail());
             userDto.setName(userDb.getName());
@@ -91,7 +91,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    private Token generateToken(User user) {
+    /**
+     * This is a method to implement token generation without using any library.
+     *
+     * @param user
+     * @return
+     */
+    private Token generateTokenSelf(User user) {
         LocalDate currentTime = LocalDate.now();
         LocalDate thirtyDaysFromCurrentTime = currentTime.plusDays(30);
 

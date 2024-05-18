@@ -1,4 +1,4 @@
-package com.ecom.userservice.security.config;
+package com.ecom.userservice.security.configurations;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -54,6 +54,14 @@ public class SecurityConfig {
         return keyPair;
     }
 
+    /**
+     * Some API's we want to grant access withour login credentials like signup, for these APIs thi filter can be
+     * used to allow such endpoints.
+     *
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -83,8 +91,12 @@ public class SecurityConfig {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated()
+                        .requestMatchers("/users/signup").permitAll()
+                        .requestMatchers("/clients").permitAll()
+                        .anyRequest().permitAll()
                 )
+//                .cors().disable()
+                .csrf().disable()//without csrf getting 403 forbidden
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
                 .formLogin(Customizer.withDefaults());
@@ -92,6 +104,17 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * This is used to create a client that will be using our service for authorization, Like google oauth is
+     * used by any website for 'sign in by Google' then that website has to register as client on google oauth.
+     * <p>
+     * This method is using in-memory and hardcoded value.
+     * <p>
+     * This method is also hard coded therefore implemented thi method as per production in
+     * JpaRegisteredClientRepository constructor.
+     *
+     * @return
+     */
 //    @Bean
 //    public RegisteredClientRepository registeredClientRepository() {
 //        RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -105,8 +128,8 @@ public class SecurityConfig {
 //                .scope(OidcScopes.OPENID) // Roles
 //                .scope(OidcScopes.PROFILE)
 //                .scope("ADMIN")
-////                .scope("MENTOR")
-////                .scope("TA")
+////              .scope("MENTOR")
+////              .scope("TA")
 //                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
 //                .build();
 //
@@ -114,22 +137,34 @@ public class SecurityConfig {
 //    }
 
     /**
+     * Since, we have implemented our own UserDetailService we don't need this dummy in-memory username and passwords
+     *
+     * This username and password will be used to login on spring login page.
+     * <p>
+     * These UserDetails should be provided by our user db table, instead of hardcoded inmemory DB.
+     * <p>
      * Imp - UserDetailsService, UserDetails is provided by framework to provide extensibility, therefore we have to
-     * implement these
+     * implement these. These will be used to interact with signup users.
      * interfaces for creating user.
      **/
-    @Bean
-    public UserDetailsService userDetailsService() {
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//
+//        UserDetails userDetails = User.builder()
+//                .username("user")
+//                .password("$2a$12$RZMvq8FvSzYZ9LZnNZQ0du5A0/ItBquQMkocuKJlF20QobiE1sNoq")//String = password , if no
+//                // default encoder provided then bcrypt will be used.
+//                .roles("USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(userDetails);
+//    }
 
-        UserDetails userDetails = User.builder()
-                .username("user")
-                .password("$2a$12$RZMvq8FvSzYZ9LZnNZQ0du5A0/ItBquQMkocuKJlF20QobiE1sNoq")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
-
+    /**
+     * Defines the RSA key used for encryption.
+     *
+     * @return
+     */
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
         KeyPair keyPair = generateRsaKey();
@@ -143,6 +178,12 @@ public class SecurityConfig {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
+    /**
+     * How to decode jwt tokens.
+     *
+     * @param jwkSource
+     * @return
+     */
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);

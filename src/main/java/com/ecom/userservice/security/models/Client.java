@@ -7,6 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * https://docs.spring.io/spring-authorization-server/reference/guides/how-to-jpa.html - models taken from here
+ */
 @Entity
 @Table(name = "`client`")
 public class Client {

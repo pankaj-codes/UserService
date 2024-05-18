@@ -4,6 +4,7 @@ import com.ecom.userservice.models.Role;
 import com.ecom.userservice.models.User;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,9 @@ public class CustomUserDetails implements UserDetails {
     private Collection<CustomGrantedAuthority> authorities;
     private Boolean accountNonLocked;
     private Boolean enabled;
+
+    public CustomUserDetails() {
+    }
 
     public CustomUserDetails(User user) {
         this.username = user.getEmail();

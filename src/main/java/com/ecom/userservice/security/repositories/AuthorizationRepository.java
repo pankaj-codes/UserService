@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * https://docs.spring.io/spring-authorization-server/reference/guides/how-to-jpa.html - models taken from here
+ */
 @Repository
 public interface AuthorizationRepository extends JpaRepository<Authorization, String> {
     Optional<Authorization> findByState(String state);

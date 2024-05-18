@@ -4,6 +4,9 @@ import java.time.Instant;
 
 import jakarta.persistence.*;
 
+/**
+ * https://docs.spring.io/spring-authorization-server/reference/guides/how-to-jpa.html - models taken from here
+ */
 @Entity
 @Table(name = "`authorization`")
 public class Authorization {

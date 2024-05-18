@@ -22,6 +22,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+/**
+ * https://docs.spring.io/spring-authorization-server/reference/guides/how-to-jpa.html - models taken from here
+ */
 @Component
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
     private final ClientRepository clientRepository;

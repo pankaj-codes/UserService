@@ -24,17 +24,19 @@ class UserServiceApplicationTests {
 
     @Test
     @Commit
+//Without commit this data will be removed from DB
     void storeRegisteredClientInDB() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("oidc-client")
-                .clientSecret("{noop}secret")
+                .clientSecret("$2a$12$2Dq2xgLYGxvU7SQhfj9OhOxtaK8zLGuVk37v2LSX6t4QtzGtpSYLW") //password = {noop}secret - {noop is not included in password}
+//                .clientSecret("{noop}secret")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .redirectUri("https://oauth.pstmn.io/v1/callback")
                 .postLogoutRedirectUri("https://oauth.pstmn.io/v1/callback")
-                .scope(OidcScopes.OPENID) // Roles
-                .scope(OidcScopes.PROFILE)
+//                .scope(OidcScopes.OPENID) // Roles
+//                .scope(OidcScopes.PROFILE)
                 .scope("ADMIN")
 //                .scope("MENTOR")
 //                .scope("TA")
