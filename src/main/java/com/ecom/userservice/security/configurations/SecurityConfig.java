@@ -207,7 +207,6 @@ public class SecurityConfig {
      *
      * @return
      */
-    @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
         return (context) -> {
             if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
@@ -217,7 +216,7 @@ public class SecurityConfig {
                             .map(c -> c.replaceFirst("^ROLE_", ""))
                             .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
                     claims.put("roles", roles);
-                    claims.put("user-Id", ((CustomUserDetails) context.getPrincipal()).getUserId());
+                    claims.put("userId", ((CustomUserDetails) context.getPrincipal().getPrincipal()).getUserId());
                 });
             }
         };
