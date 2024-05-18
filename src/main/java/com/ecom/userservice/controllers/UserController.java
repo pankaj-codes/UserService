@@ -85,8 +85,8 @@ public class UserController {
             UserDto userDto = new UserDto();
             userDto.setEmail(userDb.getEmail());
             userDto.setName(userDb.getName());
-            TokenResponseDto tokenResponeDto = new TokenResponseDto(token.getValue(), token.getExpiryAt(), userDto);
-            return new ResponseEntity<>(tokenResponeDto, HttpStatus.ACCEPTED);
+            TokenResponseDto tokenResponseDto = new TokenResponseDto(token.getValue(), token.getExpiryAt(), userDto);
+            return new ResponseEntity<>(tokenResponseDto, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
