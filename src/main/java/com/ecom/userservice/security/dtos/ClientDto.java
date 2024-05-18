@@ -9,7 +9,6 @@ import java.time.Instant;
 @Getter
 @Setter
 public class ClientDto {
-    private String id;
     private String clientId;
     private Instant clientIdIssuedAt;
     private String clientSecret;

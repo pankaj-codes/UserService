@@ -100,7 +100,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/users/signup").permitAll()
-                        .requestMatchers("/clients").permitAll()
+                        .requestMatchers("/clients/default").permitAll()
                         .anyRequest().permitAll()
                 )
 //                .cors().disable()

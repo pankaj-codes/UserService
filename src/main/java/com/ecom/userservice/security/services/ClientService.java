@@ -5,4 +5,6 @@ import com.ecom.userservice.security.models.Client;
 public interface ClientService {
 
     Boolean registerClient(Client client);
+
+    Boolean registerDefaultClient();
 }

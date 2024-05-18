@@ -23,21 +23,22 @@ public class StartupService {
     JpaRegisteredClientRepository registeredClientRepository;
     ClientRepository clientRepository;
 
-    public StartupService(JpaRegisteredClientRepository registeredClientRepository) {
+    public StartupService(JpaRegisteredClientRepository registeredClientRepository, ClientRepository clientRepository) {
         this.registeredClientRepository = registeredClientRepository;
+        this.clientRepository = clientRepository;
     }
 
     @PostConstruct
     public void onStartup() {
-//        Optional<Client> clientOptional = clientRepository.findByClientId(DEFAULT_CLIENT_ID);
-//        if (clientOptional.isPresent()) {
-//            Client client = clientOptional.get();
-//            if (client.getClientSecret() != null && !client.getClientSecret().isEmpty()) {
-//                return;
-//            }
-//            createDefaultClient();
-//
-//        }
+        Optional<Client> clientOptional = clientRepository.findByClientId(DEFAULT_CLIENT_ID);
+        if (clientOptional.isPresent()) {
+            Client client = clientOptional.get();
+            if (client.getClientSecret() != null && !client.getClientSecret().isEmpty()) {
+                return;
+            }
+            createDefaultClient();
+
+        }
     }
 
     public void createDefaultClient() {

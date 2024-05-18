@@ -33,4 +33,13 @@ public class ClientController {
         }
         return ResponseEntity.ok().body("Client not created");
     }
+
+    @PostMapping("/default")
+    ResponseEntity<String> createDefaultClient() {
+        boolean clientCreated = clientService.registerDefaultClient();
+        if (clientCreated) {
+            return ResponseEntity.accepted().body("Default client created");
+        }
+        return ResponseEntity.ok().body("Client not created");
+    }
 }
