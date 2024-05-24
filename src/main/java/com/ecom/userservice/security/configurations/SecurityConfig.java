@@ -52,7 +52,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Some API's we want to grant access withour login credentials like signup, for these APIs thi filter can be
+     * Some API's we want to grant access without login credentials like signup, for these APIs thi filter can be
      * used to allow such endpoints.
      *
      * @param http
@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/users/signup").permitAll()
                         .requestMatchers("/clients/default").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
 //                .cors().disable()
                 .csrf().disable()//without csrf getting 403 forbidden
@@ -158,7 +158,10 @@ public class SecurityConfig {
 //    }
 
     /**
-     * Defines the RSA key used for encryption.
+     * Defines the RSA key used for encryption. This will have private and public keys. Public key and private key
+     * must be passed as en variables.
+     * Public key - Resource server will verify the token
+     * Private Key - Auth server will sign the token
      *
      * @return
      */
@@ -186,6 +189,7 @@ public class SecurityConfig {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
+    //This has default endpoints used for authorization
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder().build();
