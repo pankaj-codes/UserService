@@ -90,6 +90,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/users/signup").permitAll()
                         .requestMatchers("/clients/default").permitAll()
+                        .requestMatchers("/users/eureka").permitAll()
                         .anyRequest().authenticated()
                 )
 //                .cors().disable()
